@@ -1,293 +1,770 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolyo</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- box icons -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asude Çiftçibaşı Blog & Splash</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg-color: #fefaf4;
+            --text-color: #222;
+            --btn-bg: #4a90e2;
+            --btn-text: #fff;
+            --page-bg: linear-gradient(to right, #fffaf4, #fef9ee);
+        }
+
+        body.dark {
+            --bg-color: #121212;
+            --text-color: #eee;
+            --btn-bg: #337ab7;
+            --btn-text: #eee;
+            --page-bg: linear-gradient(to right, #222, #333);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Georgia", serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Kitap container ve perspektif */
+        .book {
+            perspective: 1200px;
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            height: 90%;
+            max-height: 800px;
+            margin: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background: var(--page-bg);
+            overflow: hidden;
+        }
+
+        /* Sayfalar */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: var(--page-bg);
+            padding: 2rem;
+            box-sizing: border-box;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            color: var(--text-color);
+            overflow-y: auto;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            z-index: 0;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 1;
+            transform: rotateY(0deg);
+        }
+
+        /* Flip Animasyonları */
+        .page.flip-out {
+            animation: flipOut 0.6s forwards;
+            z-index: 2;
+        }
+
+        .page.flip-in {
+            animation: flipIn 0.6s forwards;
+            z-index: 3;
+        }
+
+        @keyframes flipOut {
+            0% {
+                transform: rotateY(0deg);
+                opacity: 1;
+                box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+            }
+
+            100% {
+                transform: rotateY(-90deg);
+                opacity: 0;
+                box-shadow: none;
+            }
+        }
+
+        @keyframes flipIn {
+            0% {
+                transform: rotateY(90deg);
+                opacity: 0;
+                box-shadow: none;
+            }
+
+            100% {
+                transform: rotateY(0deg);
+                opacity: 1;
+                box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        /* Profil resmi */
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* İçerik */
+        .content {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Butonlar */
+        .next,
+        .prev,
+        .home {
+            position: absolute;
+            bottom: 20px;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+            transition: background-color 0.3s;
+        }
+
+        .next:hover,
+        .prev:hover,
+        .home:hover {
+            background-color: #2d6bb8;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .home {
+            right: 20px;
+        }
+
+        /* Form */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 1rem;
+        }
+
+        input,
+        textarea {
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: inherit;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button[type="submit"] {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            user-select: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .book {
+                width: 95%;
+                height: 95%;
+                border-radius: 0;
+            }
+
+            .page {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .next,
+            .prev,
+            .home {
+                padding: 8px 12px;
+                font-size: 1rem;
+            }
+
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+            }
+
+            form {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Words container */
+        .words-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        /* Animated words */
+        .word {
+            position: absolute;
+            color: white;
+            font-family: 'Georgia', serif;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation-name: fadeInOut;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fadeInOut {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* SVG Yazı */
+        svg.splash-svg {
+            z-index: 1;
+            width: 80vw;
+            max-width: 600px;
+            height: auto;
+            overflow: visible;
+        }
+
+        /* Yazı çizim animasyonu */
+        text#animated-text {
+            font-size: clamp(30px, 10vw, 50px);
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: drawText 4s forwards;
+            animation-delay: 1s;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+        }
+
+        /* Kalem */
+        #pen {
+            width: clamp(40px, 12vw, 60px);
+            position: absolute;
+            top: calc(50% + 3vw);
+            left: calc(50% - 40vw);
+            animation: penMove 4s forwards;
+            animation-delay: 1s;
+            transform-origin: center center;
+        }
+
+        @keyframes penMove {
+            0% {
+                left: calc(50% - 40vw);
+                transform: rotate(0deg);
+            }
+
+            20% {
+                transform: rotate(-10deg);
+            }
+
+            40% {
+                transform: rotate(5deg);
+            }
+
+            60% {
+                transform: rotate(-5deg);
+            }
+
+            80% {
+                transform: rotate(3deg);
+            }
+
+            100% {
+                left: calc(50% + 35vw);
+                transform: rotate(0deg);
+            }
+        }
+
+        @keyframes drawText {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Dark Mode Button */
+        #dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            border-radius: 50%;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            user-select: none;
+            z-index: 10000;
+            transition: background-color 0.3s;
+        }
+
+        #dark-mode-toggle:hover {
+            background-color: #2d6bb8;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="wrapper">
-        <div class="cover cover-left"></div>
-        <div class="cover cover-right turn"></div>
-        <div class="book">
-            <!--profile page-->
-            <div class="book-page page-left">
-                <div class="profile-page">
-                    <img src="photo.jpg" alt="">
-                    <h2>Asude Çiftçibaşı</h2>
-                    <h4>Niğde üniversitesi İngilizce Öğretmenliği</h4>
-                    <div class="social-media">
-                        <a href="https://tr.linkedin.com/in/asudeciftcibasi"><i class='bx bxl-linkedin'></i></a>
-                        <a href="mailto:dorukhandc51@gmail.com"><i class='bx bxl-gmail'></i></a>
-                    </div>
-                    <p>
-                    <ul>
-                        Merhaba, ben Asude Çiftçibaşı. Dil eğitimi ve kültürel farklılıklar üzerine çalışmayı seviyorum.
-                        Yaratıcı
-                        öğretim
-                        teknikleri ve teknolojiyle desteklenen dil öğrenimi konularında kendimi
-                        geliştiriyorum.İnsanlarla etkili iletişim kurmak ve onların potansiyellerini keşfetmelerine
-                        yardımcı olmak
-                        benim için bir tutku. Gelecekte, dil öğrenimini eğlenceli ve etkili hale getiren projelerle
-                        eğitim dünyasına katkı sağlamayı hedefliyorum.
-                    </ul>
-                    </p>
-                    <div class="btn-box">
-                        <a href="#" class="btn contact-me">İletişim</a>
+    <!-- Splash Screen -->
+    <div id="splash-screen" role="dialog" aria-modal="true" aria-label="Loading screen">
+        <div class="words-container" aria-hidden="true"></div>
 
-                    </div>
-                </div>
-            </div>
-            <!--page 1 and page 2-->
-            <div class="book-page page-right turn" id="turn-1">
-                <!--page 1 (work experience)-->
-                <div class="page-front">
-                    <h1 class="title">Eğitim</h1>
+        <svg class="splash-svg" viewBox="0 0 600 100" aria-hidden="true" focusable="false">
+            <text id="animated-text" x="10" y="70">Asude Çiftçibaşı</text>
+        </svg>
 
-                    <div class="workeduc-box">
-                        <div class="workeduc-content">
-                            <span class="year"><i class='bx bxs-calendar'></i>2021</span>
-                            <h3>Ömer Halisdemir Üniversitesi</h3>
-                            <p>Niğde Üniversitesi İngilizce Öğretmenliği Bölümü 3. sınıf öğrencisiyim.</p>
-                        </div>
+        <!-- Kalem SVG -->
+        <svg id="pen" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="white" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M2 62 L62 2" />
+                <path d="M12 2 L62 52" />
+                <path d="M2 62 L12 62 L62 12 L52 2 Z" fill="#f7a533" stroke="none" />
+                <circle cx="20" cy="52" r="6" fill="white" />
+                <circle cx="20" cy="52" r="3" fill="#f7a533" />
+            </g>
+        </svg>
+    </div>
 
-                    </div>
+    <!-- Dark Mode Toggle -->
+    <button id="dark-mode-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+    </button>
 
-                    <div class="workeduc-box">
-                        <div class="workeduc-content">
-                            <span class="year"><i class='bx bxs-calendar'></i>2016</span>
-                            <h3>Yavuz Sultan Selim Anadolu lisesi</h3>
-                            <p>Yavuz Sultan Selim Anadolu Lisesi’nde Dil Bölümü öğrencisi olarak mezun oldum. Bu süreçte
-                                yabancı dillere olan ilgim ve dil öğrenimi konusundaki yetkinliğim gelişti. Özellikle
-                                İngilizce ve farklı kültürlere olan merakım, mesleki hedeflerimi şekillendiren en önemli
-                                etkenlerden biri oldu. </p>
-                        </div>
+    <!-- Book Container -->
+    <div class="book" aria-label="Blog Pages" style="display:none;">
+        <div class="page active" id="page-1">
+            <img src="photo.jpg" alt="Profile" class="profile-pic" />
+            <div class="content">
+                <h1>Asude Çiftçibaşı</h1>
+                <p>Niğde Üniversitesi İngilizce Öğretmenliği</p>
 
-                    </div>
+                <!-- Sosyal Bağlantılar -->
+                <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 20px;">
+                    <!-- LinkedIn -->
+                    <a href="https://tr.linkedin.com/in/asudeciftcibasi" target="_blank" aria-label="LinkedIn"
+                        style="width: 45px; height: 45px; background-color: #4a90e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                        <i class="fab fa-linkedin" style="color: white; font-size: 20px;"></i>
+                    </a>
 
-                    <span class="number-page">1</span>
-
-                    <!--next button-->
-                    <span class="nextprev-btn" data-page="turn-1">
-                        <i class='bx bx-chevron-right'></i>
-                    </span>
+                    <!-- Mail -->
+                    <a href="mailto:asudeciftcibasi311@gmail.com" aria-label="Email"
+                        style="width: 45px; height: 45px; background-color: #4a90e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                        <i class="fas fa-envelope" style="color: white; font-size: 20px;"></i>
+                    </a>
                 </div>
 
-                <!-- page 2 (education)-->
-                <div class="page-back">
-                    <h1 class="title">Yetenekler</h1>
-
-                    <div class="workeduc-box">
-                        <div class="workeduc-content">
-                            <h3>Dil Yeterlilikleri:</h3>
-                            <p>
-                            <ul>İleri düzey İngilizce bilgisi (C1 seviyesi), dilbilgisi, yazma, konuşma ve dinleme
-                                becerileri.
-                            </ul>
-                            </p>
-                        </div>
-
-                        <div class="workeduc-content">
-                            <h3>İletişim:</h3>
-                            <p>
-                            <ul>Güçlü sözlü ve yazılı iletişim becerileri; farklı yaş gruplarına hitap etme ve
-                                etkili mesaj iletme.
-                            </ul>
-                            </p>
-                        </div>
-
-                        <div class="workeduc-content">
-                            <h3>Dil Öğretim Teknikleri:</h3>
-                            <p>
-                            <ul>Yaratıcı öğretim yöntemleri, oyun temelli öğrenme ve bireysel öğrenme tekniklerini
-                                kullanma.
-                            </ul>
-                            </p>
-                        </div>
-
-                        <div class="workeduc-content">
-                            <h3>Teknoloji Kullanımı:</h3>
-                            <p>
-                            <ul>Dil eğitimi için teknolojik araçlar ve uygulamaları (Quizlet, Kahoot, Duolingo,
-                                Zoom) etkin şekilde kullanma.
-                            </ul>
-                            </p>
-                        </div>
-
-
-                    </div>
-
-                    <span class="number-page">2</span>
-
-                    <!--prev button-->
-                    <span class="nextprev-btn back" data-page="turn-1">
-                        <i class='bx bx-chevron-left'></i>
-                    </span>
-                </div>
-
-            </div>
-            <!--page 3 and page 4-->
-            <div class="book-page page-right turn" id="turn-2">
-                <!--Page 3 (my services)-->
-                <div class="page-front">
-                    <h1 class="title">Projelerim</h1>
-                    <div class="services-box">
-                        <div class="services-content">
-                            <img src="proje1.jpg" height="50%" width="70%">
-                            <h3>Proje başlık</h3>
-                            <p>Proje Açıklama.</p>
-                            <!--<a href="https://linktr.ee/piyushnavangul" class="btn">View More</a>-->
-                        </div>
-
-                        <div class="services-content">
-                            <img src="proje2.png" height="50%" width="70%">
-                            <h3>Proje başlık.</h3>
-                            <p>Proje açıklama.</p>
-                        </div>
-
-
-                        <div class="services-content">
-                            <img src="proje2.png" height="50%" width="70%">
-                            <h3>Proje başlık.</h3>
-                            <p>Proje açıklama.</p>
-                        </div>
-
-
-                        <div class="services-content">
-                            <img src="proje2.png" height="50%" width="70%">
-                            <h3>Proje başlık.</h3>
-                            <p>Proje açıklama.</p>
-                        </div>
-                    </div>
-                    <span class="number-page">3</span>
-
-                    <!--next button-->
-                    <span class="nextprev-btn" data-page="turn-2">
-                        <i class='bx bx-chevron-right'></i>
-                    </span>
-
-                </div>
-
-                <div class="page-back">
-                    <h1 class="title">Öğretim Yöntemlerim</h1>
-                    <div class="skills-box">
-                        <div class="skills-content">
-                            <div class="workeduc-content">
-                                <h3>İnteraktif Öğrenim:</h3>
-                                <p>
-                                <ul>Öğrencilerle aktif bir şekilde etkileşim kurarak dersleri daha eğlenceli ve verimli
-                                    hale getiriyorum. Grup çalışmaları, oyun tabanlı öğrenim ve diyalog pratikleri gibi
-                                    yöntemler kullanıyorum.
-                                </ul>
-                                </p>
-                            </div>
-                            <br></br>
-                            <div class="workeduc-content">
-                                <h3>Bireyselleştirilmiş Eğitim:</h3>
-                                <p>
-                                <ul>Öğrencinin seviyesine, ihtiyaçlarına ve öğrenme hızına göre özel programlar
-                                    hazırlıyorum.
-                                </ul>
-                                </p>
-                            </div>
-                            <br></br>
-                            <div class="workeduc-content">
-                                <h3>Teknoloji Destekli Eğitim:</h3>
-                                <p>
-                                <ul>Derslerde dijital platformlardan (ör. Zoom, Google Classroom) ve dil öğrenme
-                                    uygulamalarından faydalanıyorum.
-                                </ul>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <span class="number-page">4</span>
-
-                    <!--prev button-->
-                    <span class="nextprev-btn back" data-page="turn-2">
-                        <i class='bx bx-chevron-left'></i>
-                    </span>
-                </div>
+                <!-- Tanıtım yazısı -->
+                <blockquote
+                    style="margin-top: 1.5rem; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+                    Merhaba, ben Asude Çiftçibaşı. Dil eğitimi ve kültürel farklılıklar üzerine çalışmayı seviyorum.
+                    Yaratıcı öğretim teknikleri ve teknolojiyle desteklenen dil öğrenimi konularında kendimi
+                    geliştiriyorum. İnsanlarla etkili iletişim kurmak ve onların potansiyellerini keşfetmelerine
+                    yardımcı olmak
+                    benim için bir tutku. Gelecekte, dil öğrenimini eğlenceli ve etkili hale getiren projelerle
+                    eğitim dünyasına katkı sağlamayı hedefliyorum.
+                </blockquote>
             </div>
 
-            <div class="book-page page-right turn" id="turn-3">
-                <div class="page-front">
-                    <h1 class="title">Ders Programlarım</h1>
-
-                    <div class="portfolio-box">
-                        <!-- > <div class="img-box">
-                            <img src="Homepage.png">
-                        </div>-->
-
-                        <div class="info-box">
-                            <!-- <div class="info-title">
-                                <h3>BooksGuide Website</h3>
-                                <a href="https://booksguide.godaddysites.com/">Live preview<i
-                                        class='bx bx-link-external'></i></a>
-                            </div> -->
-                            <h3>Başlangıç Seviyesi:</h3>
-                            <p>
-                            <ul>temel dil bilgisi, kelime öğrenimi ve günlük konuşma pratiği.(Döküman 1)</ul>
-                            </p>
-                            <br></br>
-                            <h3>Orta ve İleri Seviyeler:</h3>
-                            <p>Akademik İngilizce, iş İngilizcesi ve yazma becerileri üzerine çalışmalar.(Döküman 2)</p>
-
-                        </div>
-
-                        <div class="btn-back">
-                            <a href="https://drive.google.com/file/d/1BcmxLAlgkkE2o4icyJ_v1T2soSEz6roY/view?usp=sharing"
-                                class="btn">Döküman1</a>
-                            <a href="https://drive.google.com/file/d/11a58vgPzfeseTZ3leiPZKMVATk5A7yUP/view?usp=sharing"
-                                class="btn">Döküman2</a>
-                        </div>
-                    </div>
-
-                    <span class="number-page">5</span>
-
-                    <!--next button-->
-                    <span class="nextprev-btn" data-page="turn-3">
-                        <i class='bx bx-chevron-right'></i>
-                    </span>
-
-                </div>
-
-                <div class="page-back">
-                    <h1 class="title">İletişim</h1>
-                    <div class="contact-box">
-                        <form action="https://formspree.io/f/xlddvkkr" method="POST">
-                            <input type="text" name="name" class="field" placeholder="Ad" required>
-                            <input type="email" name="email" class="field" placeholder="Email" required>
-                            <textarea name="message" id="" cols="30" rows="10" class="field"
-                                placeholder="Mesajınızı giriniz..." required></textarea>
-                            <input type="submit" class="btn" value="Send Message">
-                        </form>
-                    </div>
-
-                    <span class="number-page">6</span>
-
-                    <span class="nextprev-btn back" data-page="turn-3">
-                        <i class='bx bx-chevron-left'></i>
-                    </span>
-
-
-                </div>
-            </div>
+            <button class="next" onclick="goToPage(2)">
+                <i class="fas fa-arrow-right"></i> Next
+            </button>
         </div>
     </div>
 
 
-    <script src="script.js"></script>
+    <div class="page" id="page-2">
+        <h1>Eğitim</h1>
 
+        <!-- Üniversite -->
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="margin-bottom: 0.2rem; color: #4a90e2;">Niğde Üniversitesi</h3>
+            <p style="margin: 0;">İngilizce Öğretmenliği Lisans Programı</p>
+            <p style="margin: 0; font-size: 0.9rem; color: gray; display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-calendar-alt" style="color: #4a90e2;"></i> 2021 – 2026
+            </p>
+        </blockquote>
+
+        <!-- Lise -->
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="margin-bottom: 0.2rem; color: #4a90e2;">Niğde Atatürk Anadolu Lisesi</h3>
+            <p style="margin: 0;">Yabancı Dil</p>
+            <p style="margin: 0; font-size: 0.9rem; color: gray; display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-calendar-alt" style="color: #4a90e2;"></i> 2016 – 2020
+            </p>
+        </blockquote>
+
+        <button class="prev" onclick="goToPage(1)">
+            <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="next" onclick="goToPage(3)">
+            <i class="fas fa-arrow-right"></i> Next
+        </button>
+    </div>
+
+
+
+    <div class="page" id="page-3">
+        <h1>Yetenekler</h1>
+
+        <!-- Dil Yeterlilikleri -->
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Dil Yeterlilikleri</h3>
+            <p style="margin: 0;">
+                İleri düzey İngilizce bilgisi (C1 seviyesi), dilbilgisi, yazma, konuşma ve dinleme becerileri.
+            </p>
+        </blockquote>
+
+        <!-- İletişim -->
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">İletişim</h3>
+            <p style="margin: 0;">
+                Güçlü sözlü ve yazılı iletişim becerileri; farklı yaş gruplarına hitap etme ve etkili mesaj iletme.
+            </p>
+        </blockquote>
+
+        <!-- Dil Öğretim Teknikleri -->
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Dil Öğretim Teknikleri</h3>
+            <p style="margin: 0;">
+                Yaratıcı öğretim yöntemleri, oyun temelli öğrenme ve bireysel öğrenme tekniklerini kullanma.
+            </p>
+        </blockquote>
+
+        <!-- Teknoloji Kullanımı -->
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Teknoloji Kullanımı</h3>
+            <p style="margin: 0;">
+                Dil eğitimi için teknolojik araçlar ve uygulamaları (Quizlet, Kahoot, Duolingo, Zoom) etkin şekilde
+                kullanma.
+            </p>
+        </blockquote>
+
+        <button class="prev" onclick="goToPage(2)">
+            <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="next" onclick="goToPage(4)">
+            <i class="fas fa-arrow-right"></i> Next
+        </button>
+    </div>
+
+    <div class="page" id="page-4">
+        <h1>Projelerim</h1>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 1rem;">
+            <!-- Proje 1 -->
+            <div
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                <img src="project1.jpg" alt="Proje 1"
+                    style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
+                <p style="margin: 0; text-align: center; font-size: 1.1rem;">İngilizce Hikâye Kitapları</p>
+            </div>
+
+            <!-- Proje 2 -->
+            <div
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                <img src="project2.jpg" alt="Proje 2"
+                    style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
+                <p style="margin: 0; text-align: center; font-size: 1.1rem;">Dijital Kelime Kartları</p>
+            </div>
+
+            <!-- Proje 3 -->
+            <div
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                <img src="project3.jpg" alt="Proje 3"
+                    style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
+                <p style="margin: 0; text-align: center; font-size: 1.1rem;">Zoom ile Online Dersler</p>
+            </div>
+
+            <!-- Proje 4 -->
+            <div
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                <img src="project4.jpg" alt="Proje 4"
+                    style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
+                <p style="margin: 0; text-align: center; font-size: 1.1rem;">Oyun Temelli Etkinlikler</p>
+            </div>
+        </div>
+
+        <button class="prev" onclick="goToPage(3)">
+            <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="next" onclick="goToPage(5)">
+            <i class="fas fa-arrow-right"></i> Next
+        </button>
+    </div>
+
+    <div class="page" id="page-5">
+        <h1>Öğretim Yöntemlerim</h1>
+
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">İnteraktif Öğrenim</h3>
+            <p style="margin: 0;">
+                Öğrencilerle aktif bir şekilde etkileşim kurarak dersleri daha eğlenceli ve verimli hale getiriyorum.
+                Grup çalışmaları, oyun tabanlı öğrenim ve diyalog pratikleri gibi yöntemler kullanıyorum.
+            </p>
+        </blockquote>
+
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Bireyselleştirilmiş Eğitim</h3>
+            <p style="margin: 0;">
+                Öğrencinin seviyesine, ihtiyaçlarına ve öğrenme hızına göre özel programlar hazırlıyorum.
+            </p>
+        </blockquote>
+
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Teknoloji Destekli Eğitim</h3>
+            <p style="margin: 0;">
+                Derslerde dijital platformlardan (ör. Zoom, Google Classroom) ve dil öğrenme uygulamalarından
+                faydalanıyorum.
+            </p>
+        </blockquote>
+
+        <button class="prev" onclick="goToPage(4)">
+            <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="next" onclick="goToPage(6)">
+            <i class="fas fa-arrow-right"></i> Next
+        </button>
+    </div>
+
+
+    <div class="page" id="page-6">
+        <h1>Ders Programlarım</h1>
+
+        <blockquote
+            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Başlangıç Seviyesi</h3>
+            <p style="margin: 0;">
+                temel dil bilgisi, kelime öğrenimi ve günlük konuşma pratiği. (Döküman 1)
+            </p>
+        </blockquote>
+
+        <blockquote
+            style="margin: 1.5rem 0 2rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Orta ve İleri Seviyeler</h3>
+            <p style="margin: 0;">
+                Akademik İngilizce, iş İngilizcesi ve yazma becerileri üzerine çalışmalar. (Döküman 2)
+            </p>
+        </blockquote>
+
+        <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 2rem;">
+            <a href="https://drive.google.com/file/d/1BcmxLAlgkkE2o4icyJ_v1T2soSEz6roY/view" target="_blank"
+                style="padding: 12px 24px; background-color: rgba(74, 144, 226, 0.1); border-left: 4px solid #4a90e2; border-radius: 8px; 
+                  color: #4a90e2; font-weight: 600; text-decoration: none; font-style: italic; user-select: none; 
+                  display: flex; align-items: center; justify-content: center; transition: background-color 0.3s, color 0.3s;">
+                Döküman 1
+            </a>
+
+            <a href="https://drive.google.com/file/d/11a58vgPzfeseTZ3leiPZKMVATk5A7yUP/view" target="_blank"
+                style="padding: 12px 24px; background-color: rgba(74, 144, 226, 0.1); border-left: 4px solid #4a90e2; border-radius: 8px; 
+                  color: #4a90e2; font-weight: 600; text-decoration: none; font-style: italic; user-select: none; 
+                  display: flex; align-items: center; justify-content: center; transition: background-color 0.3s, color 0.3s;">
+                Döküman 2
+            </a>
+        </div>
+
+        <button class="prev" onclick="goToPage(5)">
+            <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="next" onclick="goToPage(7)">
+            <i class="fas fa-arrow-right"></i> Next
+        </button>
+    </div>
+
+    <div class="page" id="page-7">
+        <h1>Contact</h1>
+        <form action="https://formspree.io/f/xanjaerk" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+        </form>
+        <button class="prev" onclick="goToPage(6)">
+            <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <button class="home" onclick="goToPage(1)">
+            <i class="fas fa-home"></i> Home
+        </button>
+    </div>
+
+
+    <script>
+        const darkToggle = document.getElementById("dark-mode-toggle");
+        const body = document.body;
+
+        darkToggle.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            const icon = darkToggle.querySelector("i");
+            if (body.classList.contains("dark")) {
+                icon.classList.replace("fa-moon", "fa-sun");
+            } else {
+                icon.classList.replace("fa-sun", "fa-moon");
+            }
+        });
+
+        // Sayfa geçiş fonksiyonu
+        let currentPage = 1;
+        const totalPages = 7;
+
+        function goToPage(page) {
+            if (page < 1 || page > totalPages || page === currentPage) return;
+
+            const current = document.getElementById(`page-${currentPage}`);
+            const next = document.getElementById(`page-${page}`);
+
+            // Animasyon sınıflarını kaldır
+            current.classList.remove("flip-in", "flip-out");
+            next.classList.remove("flip-in", "flip-out");
+
+            // Flip out current page
+            current.classList.add("flip-out");
+            // Flip in next page
+            next.classList.add("flip-in");
+
+            setTimeout(() => {
+                current.classList.remove("active", "flip-out");
+                next.classList.add("active");
+                next.classList.remove("flip-in");
+                currentPage = page;
+            }, 600);
+        }
+
+        // Words animasyonunu oluştur
+        function createWords() {
+            const container = document.querySelector(".words-container");
+            const words = ["Learn", "Read", "Write"];
+            const wordCount = 30;
+
+            for (let i = 0; i < wordCount; i++) {
+                const div = document.createElement("div");
+                div.classList.add("word");
+                div.textContent = words[i % words.length];
+
+                // Rastgele pozisyonlar
+                div.style.top = Math.random() * 100 + "%";
+                div.style.left = Math.random() * 100 + "%";
+
+                // Animasyon süresi ve gecikme rastgele
+                const duration = 4 + Math.random() * 4; // 4-8 saniye
+                const delay = Math.random() * 8; // 0-8 saniye
+
+                div.style.animationDuration = `${duration}s`;
+                div.style.animationDelay = `${delay}s`;
+
+                container.appendChild(div);
+            }
+        }
+        createWords();
+
+        // Splash ekranı gizle ve kitabı göster
+        setTimeout(() => {
+            const splash = document.getElementById("splash-screen");
+            splash.style.transition = "opacity 0.7s";
+            splash.style.opacity = 0;
+            setTimeout(() => {
+                splash.style.display = "none";
+                document.querySelector(".book").style.display = "block";
+                document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-color');
+                document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+            }, 700);
+        }, 5500);
+    </script>
 </body>
 
 </html>
