@@ -56,11 +56,12 @@
         .page {
             position: absolute;
             width: 100%;
-            height: 100%;
             top: 0;
+            bottom: 0;
             left: 0;
             background: var(--page-bg);
             padding: 2rem;
+            padding-bottom: 120px;
             box-sizing: border-box;
             backface-visibility: hidden;
             transform-style: preserve-3d;
@@ -141,7 +142,7 @@
         .next,
         .prev,
         .home {
-            position: absolute;
+            position: fixed;
             bottom: 20px;
             padding: 10px 15px;
             font-size: 1.2rem;
@@ -150,7 +151,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            z-index: 2;
+            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -166,14 +167,28 @@
 
         .next {
             right: 20px;
+            background-color: #2d6bb8;
+            color: white;
         }
 
         .prev {
             left: 20px;
+            background-color: #2d6bb8;
+            color: white;
         }
 
         .home {
-            right: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2d6bb8;
+            color: white;
+        }
+
+        .page#page-4>div {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 1rem;
         }
 
         /* Form */
@@ -205,6 +220,15 @@
             min-height: 120px;
         }
 
+        .page#page-4 button.prev,
+        .page#page-4 button.next {
+            padding: 10px 15px;
+            font-size: 1rem;
+            /* Gerekirse pozisyon ayarları */
+            bottom: 10px;
+        }
+        }
+
         button[type="submit"] {
             background-color: var(--btn-bg);
             color: var(--btn-text);
@@ -229,16 +253,29 @@
                 border-radius: 0;
             }
 
+            .page#page-4>div {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
             .page {
-                padding: 1rem;
-                font-size: 0.9rem;
+                padding: 1rem 1rem 160px 1rem;
+                /* Alt padding arttırıldı, butonlar boşlukta kalır */
+                font-size: 0.85rem;
+                /* Yazılar mobilde biraz küçüldü */
             }
 
             .next,
             .prev,
             .home {
-                padding: 8px 12px;
-                font-size: 1rem;
+                padding: 10px 15px;
+                font-size: 14px;
+                border-radius: 8px;
+                z-index: auto;
+                /* veya kaldır */
+                margin-top: 1rem;
+                /* butonlar için üst boşluk ekleyebilirsin */
+
             }
 
             .profile-pic {
@@ -272,6 +309,17 @@
             inset: 0;
             overflow: hidden;
             z-index: 0;
+        }
+
+        .prev,
+        .next,
+        .home {
+            position: fixed;
+            bottom: 15px;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 8px;
+            z-index: 1000;
         }
 
         /* Animated words */
@@ -369,22 +417,27 @@
         /* Dark Mode Button */
         #dark-mode-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
+            top: 12px;
+            right: 12px;
+            width: 35px;
+            height: 35px;
+            background-color: #2d6bb8;
+            color: #fff;
             border: none;
             border-radius: 50%;
-            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
             cursor: pointer;
-            font-size: 1.3rem;
-            user-select: none;
-            z-index: 10000;
-            transition: background-color 0.3s;
+            z-index: 1001;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         #dark-mode-toggle:hover {
             background-color: #2d6bb8;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -523,7 +576,7 @@
 
         <!-- Teknoloji Kullanımı -->
         <blockquote
-            style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            style="margin: 1.5rem 0;height: 75px; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
             <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Teknoloji Kullanımı</h3>
             <p style="margin: 0;">
                 Dil eğitimi için teknolojik araçlar ve uygulamaları (Quizlet, Kahoot, Duolingo, Zoom) etkin şekilde
@@ -545,7 +598,7 @@
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 1rem;">
             <!-- Proje 1 -->
             <div
-                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 150px;">
                 <img src="project1.jpg" alt="Proje 1"
                     style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
                 <p style="margin: 0; text-align: center; font-size: 1.1rem;">İngilizce Hikâye Kitapları</p>
@@ -553,7 +606,7 @@
 
             <!-- Proje 2 -->
             <div
-                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 150px;">
                 <img src="project2.jpg" alt="Proje 2"
                     style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
                 <p style="margin: 0; text-align: center; font-size: 1.1rem;">Dijital Kelime Kartları</p>
@@ -561,7 +614,7 @@
 
             <!-- Proje 3 -->
             <div
-                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 150px;">
                 <img src="project3.jpg" alt="Proje 3"
                     style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
                 <p style="margin: 0; text-align: center; font-size: 1.1rem;">Zoom ile Online Dersler</p>
@@ -569,7 +622,7 @@
 
             <!-- Proje 4 -->
             <div
-                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 250px;">
+                style="border-left: 5px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 12px; padding: 1rem; font-style: italic; height: 150px;">
                 <img src="project4.jpg" alt="Proje 4"
                     style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 0.7rem;" />
                 <p style="margin: 0; text-align: center; font-size: 1.1rem;">Oyun Temelli Etkinlikler</p>
