@@ -1,78 +1,69 @@
-//turn pages when click next or prev button
-const pageTurnBtn = document.querySelectorAll('.nextprev-btn');
+window.addEventListener("load", () => {
+    const splash = document.getElementById("splash-screen");
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
 
-pageTurnBtn.forEach((el, index) => {
-    el.onclick = () => {
-        const pageTurnId = el.getAttribute('data-page');
-        const pageTurn = document.getElementById(pageTurnId);
+    // Canvas boyutları
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
 
-        if (pageTurn.classList.contains('turn')) {
-            pageTurn.classList.remove('turn');
-            setTimeout(() => {
-                pageTurn.style.zIndex = 20 - index;
-            }, 500)
+    // Konfeti parçacıkları
+    const confettiCount = 100;
+    const confetti = [];
+
+    class Confetto {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height - canvas.height;
+            this.size = 5 + Math.random() * 8;
+            this.speed = 1 + Math.random() * 3;
+            this.angle = Math.random() * 360;
+            this.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
+            this.rotationSpeed = (Math.random() - 0.5) * 0.1;
         }
-
-        else {
-            pageTurn.classList.add('turn');
-            setTimeout(() => {
-                pageTurn.style.zIndex = 20 + index;
-            }, 500)
+        update() {
+            this.y += this.speed;
+            this.angle += this.rotationSpeed;
+            if (this.y > canvas.height) {
+                this.y = -this.size;
+                this.x = Math.random() * canvas.width;
+            }
+        }
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate((this.angle * Math.PI) / 180);
+            ctx.fillStyle = this.color;
+            ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+            ctx.restore();
         }
     }
-})
-//contact me button when click
-const pages = document.querySelectorAll('.book-page.page-right');
-const contactMeBtn = document.querySelector('.btn.contact-me');
 
-contactMeBtn.onclick = () => {
-    pages.forEach((page, index) => {
-        setTimeout(() => {
-            page.classList.add('turn');
-
-            setTimeout(() => {
-                page.style.zIndex = 20 + index;
-
-            }, 500)
-        }, (index + 1) * 200 + 100)
-    })
-}
-
-//create reverse index function
-let totalPage = page.length;
-let pageNumber = 0;
-
-function reverseIndex() {
-    pageNumber--;
-    if (pageNumber < 0) {
-        pageNumber = totalPage - 1;
+    for (let i = 0; i < confettiCount; i++) {
+        confetti.push(new Confetto());
     }
-}
-//back profile button when click
 
-const backProfileBtn = document.querySelector('.back-profile');
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach((c) => {
+            c.update();
+            c.draw();
+        });
+        requestAnimationFrame(animate);
+    }
 
-backProfileBtn.onclick = () => {
-    pages.forEach((_, index) => {
+    animate();
+
+    // 3 saniye sonra splash ekranı gizle
+    setTimeout(() => {
+        splash.style.transition = "opacity 0.6s ease";
+        splash.style.opacity = 0;
         setTimeout(() => {
-            reverseIndex();
-            pages[pageNumber].classList.remove('turn');
-
-            setTimeout(() => {
-                reverseIndex();
-                pages[pageNumber].style.zIndex = 10 + index;
-            }, 500)
-
-        }, (index + 1) * 200 + 100)
-    })
-}
-//opening animation
-const coverRight = document.querySelector('.cover.cover-right');
-
-
-//opening animation (cover right animation)
-setTimeout(() => {
-    coverRight.classList.add('turn');
-}, 2100)
-//opening animation (page left or profile page animation)
-//opening animation (all page right animation)
+            splash.style.display = "none";
+        }, 600);
+    }, 3000);
+});
