@@ -167,8 +167,10 @@
 
         .next {
             right: 20px;
+            bottom: 60px;
             background-color: #2d6bb8;
             color: white;
+            z-index: 1000;
         }
 
         .prev {
@@ -271,11 +273,9 @@
                 padding: 10px 15px;
                 font-size: 14px;
                 border-radius: 8px;
-                z-index: auto;
-                /* veya kaldır */
+                z-index: 1000;
+                bottom: 60px;
                 margin-top: 1rem;
-                /* butonlar için üst boşluk ekleyebilirsin */
-
             }
 
             .profile-pic {
@@ -285,6 +285,16 @@
 
             form {
                 padding: 0 1rem;
+            }
+
+            .next {
+                right: 20px;
+                bottom: 60px;
+                /* <<< Butonu yukarı taşıyoruz */
+                background-color: #2d6bb8;
+                color: white;
+                z-index: 1000;
+                /* görünürlüğü garantile */
             }
         }
 
