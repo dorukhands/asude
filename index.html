@@ -166,17 +166,24 @@
         }
 
         .next {
+            position: fixed;
             right: 20px;
-            bottom: 60px;
+            bottom: 80px;
             background-color: #2d6bb8;
             color: white;
             z-index: 1000;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 8px;
+            transform: translateY(-40px);
+            /* Butonu yukarı iter */
         }
 
         .prev {
             left: 20px;
             background-color: #2d6bb8;
             color: white;
+            transform: translateY(-40px);
         }
 
         .home {
@@ -184,6 +191,7 @@
             transform: translateX(-50%);
             background-color: #2d6bb8;
             color: white;
+            transform: translateY(-40px);
         }
 
         .page#page-4>div {
@@ -287,15 +295,6 @@
                 padding: 0 1rem;
             }
 
-            .next {
-                right: 20px;
-                bottom: 60px;
-                /* <<< Butonu yukarı taşıyoruz */
-                background-color: #2d6bb8;
-                color: white;
-                z-index: 1000;
-                /* görünürlüğü garantile */
-            }
         }
 
         /* Splash Screen */
@@ -527,9 +526,9 @@
         <!-- Üniversite -->
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="margin-bottom: 0.2rem; color: #4a90e2;">Niğde Üniversitesi</h3>
-            <p style="margin: 0;">İngilizce Öğretmenliği Lisans Programı</p>
-            <p style="margin: 0; font-size: 0.9rem; color: gray; display: flex; align-items: center; gap: 6px;">
+            <h3 style="margin-bottom: 0.2rem; color: #4a90e2;margin:-10px">Niğde Üniversitesi</h3>
+            <p style="margin: 12px;">İngilizce Öğretmenliği Lisans Programı</p>
+            <p style="margin: 12px; font-size: 0.9rem; color: gray; display: flex; align-items: center; gap: 6px;">
                 <i class="fas fa-calendar-alt" style="color: #4a90e2;"></i> 2021 – 2026
             </p>
         </blockquote>
@@ -537,9 +536,9 @@
         <!-- Lise -->
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="margin-bottom: 0.2rem; color: #4a90e2;">Niğde Atatürk Anadolu Lisesi</h3>
-            <p style="margin: 0;">Yabancı Dil</p>
-            <p style="margin: 0; font-size: 0.9rem; color: gray; display: flex; align-items: center; gap: 6px;">
+            <h3 style="margin-bottom: 0.2rem; color: #4a90e2;margin:-10px">Niğde Atatürk Anadolu Lisesi</h3>
+            <p style="margin: 12px;">Yabancı Dil</p>
+            <p style="margin: 12px; font-size: 0.9rem; color: gray; display: flex; align-items: center; gap: 6px;">
                 <i class="fas fa-calendar-alt" style="color: #4a90e2;"></i> 2016 – 2020
             </p>
         </blockquote>
@@ -560,8 +559,8 @@
         <!-- Dil Yeterlilikleri -->
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Dil Yeterlilikleri</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">Dil Yeterlilikleri</h3>
+            <p style="margin: 12px;">
                 İleri düzey İngilizce bilgisi (C1 seviyesi), dilbilgisi, yazma, konuşma ve dinleme becerileri.
             </p>
         </blockquote>
@@ -569,8 +568,8 @@
         <!-- İletişim -->
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">İletişim</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">İletişim</h3>
+            <p style="margin: 12px;">
                 Güçlü sözlü ve yazılı iletişim becerileri; farklı yaş gruplarına hitap etme ve etkili mesaj iletme.
             </p>
         </blockquote>
@@ -578,17 +577,17 @@
         <!-- Dil Öğretim Teknikleri -->
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Dil Öğretim Teknikleri</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">Dil Öğretim Teknikleri</h3>
+            <p style="margin: 12px;">
                 Yaratıcı öğretim yöntemleri, oyun temelli öğrenme ve bireysel öğrenme tekniklerini kullanma.
             </p>
         </blockquote>
 
         <!-- Teknoloji Kullanımı -->
         <blockquote
-            style="margin: 1.5rem 0;height: 75px; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Teknoloji Kullanımı</h3>
-            <p style="margin: 0;">
+            style="margin: 1.5rem 0;height: 65px; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem; margin:-10px">Teknoloji Kullanımı</h3>
+            <p style="margin: 12px;">
                 Dil eğitimi için teknolojik araçlar ve uygulamaları (Quizlet, Kahoot, Duolingo, Zoom) etkin şekilde
                 kullanma.
             </p>
@@ -652,8 +651,8 @@
 
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">İnteraktif Öğrenim</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">İnteraktif Öğrenim</h3>
+            <p style="margin: 12px;">
                 Öğrencilerle aktif bir şekilde etkileşim kurarak dersleri daha eğlenceli ve verimli hale getiriyorum.
                 Grup çalışmaları, oyun tabanlı öğrenim ve diyalog pratikleri gibi yöntemler kullanıyorum.
             </p>
@@ -661,16 +660,16 @@
 
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Bireyselleştirilmiş Eğitim</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">Bireyselleştirilmiş Eğitim</h3>
+            <p style="margin: 12px;">
                 Öğrencinin seviyesine, ihtiyaçlarına ve öğrenme hızına göre özel programlar hazırlıyorum.
             </p>
         </blockquote>
 
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Teknoloji Destekli Eğitim</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">Teknoloji Destekli Eğitim</h3>
+            <p style="margin: 12px;">
                 Derslerde dijital platformlardan (ör. Zoom, Google Classroom) ve dil öğrenme uygulamalarından
                 faydalanıyorum.
             </p>
@@ -690,16 +689,16 @@
 
         <blockquote
             style="margin: 1.5rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Başlangıç Seviyesi</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">Başlangıç Seviyesi</h3>
+            <p style="margin: 12px;">
                 temel dil bilgisi, kelime öğrenimi ve günlük konuşma pratiği. (Döküman 1)
             </p>
         </blockquote>
 
         <blockquote
             style="margin: 1.5rem 0 2rem 0; font-style: italic; padding: 1rem; border-left: 4px solid #4a90e2; background-color: rgba(74, 144, 226, 0.05); border-radius: 8px;">
-            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;">Orta ve İleri Seviyeler</h3>
-            <p style="margin: 0;">
+            <h3 style="color: #4a90e2; margin-bottom: 0.5rem;margin:-10px">Orta ve İleri Seviyeler</h3>
+            <p style="margin: 12px;">
                 Akademik İngilizce, iş İngilizcesi ve yazma becerileri üzerine çalışmalar. (Döküman 2)
             </p>
         </blockquote>
